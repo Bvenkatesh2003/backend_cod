@@ -1,9 +1,15 @@
-FROM python:3.11-slim
+# Use official Python runtime as a parent image
+FROM python:3.9-slim
 
-RUN useradd -m runner
-USER runner
-WORKDIR /home/runner
+# Set the working directory in the container
+WORKDIR /app
 
-COPY run_code.py .
+# Install dependencies
+COPY requirements.txt .
+RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "run_code.py"]
+# Copy the current directory contents into the container
+COPY . .
+
+# Run the Flask app
+CMD ["python", "app.py"]
